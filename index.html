@@ -1,375 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador Gamificado: Ruta del Diseñador y Gestor Digital</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ruta al Egreso Digital</title>
 <style>
-  :root {
-    --guinda: #691C32;
-    --guinda-dark: #4a1222;
-    --petroleo: #1C4E5C;
-    --dorado: #BC955C;
-    --bg: #f4f6f8;
-    --card: #ffffff;
-    --text: #2c3e50;
-    --success: #2e7d32;
-    --error: #c62828;
-  }
-  * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-  body { margin: 0; background: var(--bg); color: var(--text); }
-  header {
-    background: linear-gradient(135deg, var(--guinda), var(--petroleo));
-    color: white;
-    padding: 18px 24px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-  }
-  header h1 { margin: 0; font-size: 1.35rem; }
-  header p { margin: 4px 0 0; font-size: 0.9rem; opacity: 0.9; }
-  .hud {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    background: rgba(255,255,255,0.12);
-    padding: 10px 16px;
-    border-radius: 10px;
-    margin-top: 8px;
-  }
-  .hud-item { font-weight: bold; font-size: 0.95rem; }
-  .badge-pill {
-    background: var(--dorado);
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-  }
-  .container { max-width: 880px; margin: 28px auto; padding: 0 16px; }
-  .progress-wrap {
-    background: #dce2e8;
-    border-radius: 20px;
-    height: 14px;
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-  .progress-bar {
-    background: linear-gradient(90deg, var(--dorado), var(--petroleo));
-    height: 100%;
-    width: 0%;
-    transition: width 0.4s ease;
-  }
-  .card {
-    background: var(--card);
-    border-radius: 14px;
-    padding: 28px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-    border-top: 5px solid var(--guinda);
-    animation: fadeIn 0.35s ease;
-  }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .station-tag {
-    display: inline-block;
-    background: #eef4f6;
-    color: var(--petroleo);
-    font-weight: bold;
-    padding: 5px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    margin-bottom: 10px;
-  }
-  h2 { color: var(--guinda); margin-top: 4px; font-size: 1.4rem; }
-  .scenario-box {
-    background: #fcf9f2;
-    border-left: 4px solid var(--dorado);
-    padding: 14px 18px;
-    border-radius: 0 8px 8px 0;
-    margin: 16px 0;
-    line-height: 1.55;
-  }
-  .options { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
-  .opt-btn {
-    text-align: left;
-    background: #f8fafc;
-    border: 2px solid #d8e1e8;
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: var(--text);
-  }
-  .opt-btn:hover { border-color: var(--petroleo); background: #eef5f7; }
-  .opt-btn.correct { border-color: var(--success); background: #e8f5e9; color: #1b5e20; font-weight: 600; }
-  .opt-btn.wrong { border-color: var(--error); background: #ffebee; color: #b71c1c; }
-  .feedback {
-    margin-top: 18px;
-    padding: 15px;
-    border-radius: 8px;
-    display: none;
-    line-height: 1.5;
-  }
-  .feedback.ok { background: #e8f5e9; border-left: 4px solid var(--success); color: #1b5e20; }
-  .feedback.err { background: #fff3e0; border-left: 4px solid #ef6c00; color: #e65100; }
-  .btn-primary {
-    margin-top: 20px;
-    background: var(--guinda);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--guinda-dark); }
-  .badges-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin: 20px 0;
-  }
-  .badge-card {
-    border: 2px solid var(--dorado);
-    background: #fffdf8;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-  }
-  .badge-icon { font-size: 2.5rem; margin-bottom: 8px; }
-  .stars { font-size: 1.8rem; cursor: pointer; color: #ccc; user-select: none; }
-  .stars span.active { color: #f5b301; }
-  textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-top: 8px;
-    font-size: 0.95rem;
-  }
-  footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.85rem;
-    color: #6c7a89;
-  }
+:root{--bg:#f2f5f9;--card:#fff;--ink:#222b36;--mut:#6b7785;--navy:#1f3a5f;--teal:#2a9d8f;--or:#e76f51;--gold:#e9c46a;--line:#d5dde8;--tealL:#dcf1ee;--orL:#fbe3dc;--hd:#1f3a5f;--hdt:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10161f;--card:#1a2330;--ink:#e6ebf2;--mut:#9aa7b8;--navy:#8fb8de;--line:#2c3a4d;--tealL:#173a37;--orL:#4a2a22;--hd:#162338}}
+:root[data-theme="dark"]{--bg:#10161f;--card:#1a2330;--ink:#e6ebf2;--mut:#9aa7b8;--navy:#8fb8de;--line:#2c3a4d;--tealL:#173a37;--orL:#4a2a22;--hd:#162338}
+html{color-scheme:light dark;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hd);color:var(--hdt);padding:12px 16px}
+.wrap{max-width:640px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+h1{font-size:17px;margin:0;letter-spacing:.3px}
+.lvl{font-size:13px;opacity:.9}
+.bar{height:10px;background:rgba(255,255,255,.2);border-radius:6px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:6px;transition:width .4s}
+.xp{font-size:12px;opacity:.85;margin-top:4px}
+main{max-width:640px;margin:0 auto;padding:16px 16px 96px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 12px}
+.node{display:flex;gap:12px;align-items:center;cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
+.node .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:22px;flex:none;background:var(--line)}
+.node.done .ic{background:var(--teal);color:#fff}.node.cur .ic{background:var(--or);color:#fff}
+.node.lock{opacity:.6;cursor:not-allowed}
+.node b{display:block}.node small{color:var(--mut)}
+.link{width:3px;height:14px;background:var(--line);margin:-6px 0 6px 32px;border-radius:2px}
+h2{font-size:20px;margin:4px 0 4px;color:var(--navy)}h3{font-size:15px;margin:14px 0 6px;color:var(--navy)}
+.mut{color:var(--mut);font-size:14px}
+.vid{background:#2b3440;color:#fff;border-radius:12px;height:130px;display:grid;place-items:center;text-align:center;padding:10px;font-size:13px;margin:10px 0}
+.vid span{font-size:34px;display:block}
+label.ck{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer}
+label.ck input{width:20px;height:20px;margin-top:2px;accent-color:var(--teal);flex:none}
+label.ck em{margin-left:auto;font-style:normal;font-size:12px;color:var(--mut);white-space:nowrap}
+button{font:inherit}
+.btn{background:var(--or);color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:600;cursor:pointer;min-height:44px}
+.btn.alt{background:var(--teal)}.btn.ghost{background:transparent;color:var(--navy);border:1px solid var(--line)}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:8px;cursor:pointer;min-height:44px}
+.opt.ok{background:var(--tealL);border-color:var(--teal)}.opt.no{background:var(--orL);border-color:var(--or)}
+.fb{font-size:14px;margin:4px 0 8px}
+.tot{display:flex;justify-content:space-between;align-items:center;background:var(--tealL);border-radius:12px;padding:12px 14px;font-weight:600;margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.bdg{text-align:center;padding:14px 8px}
+.bdg .c{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:30px;margin:0 auto 8px;background:var(--line)}
+.bdg.on .c{background:var(--gold)}.bdg:not(.on){opacity:.7}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;justify-content:center;z-index:6}
+nav button{flex:1;max-width:200px;background:transparent;border:0;color:var(--mut);padding:8px;border-radius:10px;cursor:pointer;min-height:44px}
+nav button.on{background:var(--navy);color:var(--bg);font-weight:700}
+.back{background:none;border:0;color:var(--navy);padding:6px 0;cursor:pointer;font-weight:600}
+.stars{display:flex;gap:4px;justify-content:center;margin:6px 0}.stars button{background:none;border:0;font-size:34px;line-height:1;cursor:pointer;padding:4px;min-width:48px;min-height:48px;filter:grayscale(1);opacity:.4}.stars button.on{filter:none;opacity:1}
+.emo{display:flex;gap:8px;justify-content:center;margin:6px 0 12px}.emo button{background:var(--card);border:2px solid var(--line);border-radius:50%;width:52px;height:52px;font-size:28px;cursor:pointer}.emo button.on{border-color:var(--or);background:var(--orL)}
+.chip{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:8px 12px;margin:0 6px 8px 0;cursor:pointer;background:var(--card);color:var(--ink);min-height:40px}.chip.on{background:var(--tealL);border-color:var(--teal);font-weight:600}
+textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;background:var(--card);color:var(--ink)}.story{border-left:4px solid var(--or)}
 </style>
 </head>
 <body>
-
-<header>
-  <div>
-    <h1>🚀 Misión Digital: Ruta del Diseñador y Gestor</h1>
-    <p>Objeto de Aprendizaje Gamificado • Prepa en Línea-SEP</p>
-  </div>
-  <div class="hud">
-    <div class="hud-item">⭐ Puntos: <span id="xp-score">0</span> XP</div>
-    <div class="hud-item">🏅 Insignias: <span id="badge-count" class="badge-pill">0 / 2</span></div>
-  </div>
-</header>
-
-<div class="container">
-  <div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
-  <div id="screen-container"></div>
-</div>
-
-<footer>
-  Autoría propia: Alejandra Zarco Maya • Maestría en Ambientes, Sistemas y Gestión en Educación Multimodal (UNRC).
-</footer>
-
+<header><div class="wrap">
+ <div class="top"><h1>RUTA AL EGRESO DIGITAL</h1><span class="lvl" id="lvl"></span></div>
+ <div class="bar"><i id="bar"></i></div><div class="xp" id="xp"></div>
+</div></header>
+<main id="app"></main>
+<nav><button id="n1" onclick="go('mapa')">🗺️ Mapa</button><button id="n2" onclick="go('logros')">🏅 Logros</button><button id="n3" onclick="go('opina')">⭐ Opinar</button></nav>
 <script>
-const stations = [
-  {
-    type: 'intro',
-    tag: 'ESTACIÓN 0 • BIENVENIDA A LA MISIÓN',
-    title: '¡Bienvenido(a) a la Ruta del Diseñador y Gestor Digital!',
-    desc: 'Estás a punto de resolver 3 retos reales que enfrentan los estudiantes de Prepa en Línea-SEP en sus módulos avanzados (especialmente en el Módulo 23 de gestión de proyectos).',
-    scenario: '<strong>Tu objetivo:</strong> Tomar decisiones estratégicas sobre diseño visual en <strong>Canva</strong>, gestión del tiempo con <strong>Tom's Planner</strong> y resguardo seguro en la <strong>Nube</strong> para desbloquear tus insignias de competencia digital.',
-    btnText: 'Comenzar Desafío 1 →'
-  },
-  {
-    type: 'quiz',
-    tag: 'ESTACIÓN 1 • DISEÑO VISUAL EN CANVA (RETO 4)',
-    title: 'Comunicando tu Proyecto Comunitario',
-    scenario: '<strong>Caso práctico:</strong> Debes entregar una infografía en Canva sobre una problemática de tu comunidad para tu actividad integradora. Tienes mucha información investigada y poco espacio en la plantilla.',
-    question: '¿Cuál es la decisión más efectiva para lograr un diseño claro, ético y profesional?',
-    options: [
-      { text: 'Copiar y pegar párrafos completos de internet en letra tamaño 8 para que quepa todo el texto.', ok: false, fb: '⚠️ ¡Cuidado! Saturar de texto dificulta la lectura y copiar sin citar viola la integridad académica.' },
-      { text: 'Sintetizar las ideas clave en bloques breves, usar íconos visuales de apoyo, incluir fuentes confiables al pie y descargar en PDF estándar.', ok: true, fb: '✅ ¡Excelente decisión! Sintetizar la información, equilibrar texto con elementos visuales y citar fuentes demuestra alfabetización informacional y dominio de Canva. (+150 XP)' },
-      { text: 'Usar 6 tipos de letra distintos y colores neón de fondo para llamar la atención del asesor virtual.', ok: false, fb: '⚠️ El exceso de tipografías y colores brillantes genera fatiga visual y resta formalidad académica.' }
-    ],
-    xp: 150,
-    badge: null
-  },
-  {
-    type: 'quiz',
-    tag: 'ESTACIÓN 2 • GESTIÓN DEL TIEMPO CON TOM'S PLANNER (RETO 5)',
-    title: 'Organizando la Semana sin Estrés',
-    scenario: '<strong>Caso práctico:</strong> Trabajas de lunes a viernes y tienes hasta el domingo a las 23:55 hrs para entregar dos actividades integradoras y participar en el foro.',
-    question: '¿Cómo debes estructurar tu diagrama de Gantt en Tom's Planner para asegurar tu entrega a tiempo?',
-    options: [
-      { text: 'Dejar todas las actividades para el domingo por la tarde para hacerlas de una sola vez.', ok: false, fb: '⚠️ Riesgo alto: El domingo por la noche la plataforma suele saturarse y no tendrás margen ante fallas de internet.' },
-      { text: 'Asignar bloques diarios de 45 minutos (lunes a viernes) divididos por fases: lectura de recursos, borrador, revisión y entrega anticipada el sábado.', ok: true, fb: '✅ ¡Brillante! Dividir el proyecto en micro-tareas diarias con un margen de seguridad el sábado fortalece tu aprendizaje autorregulado y evita el abandono. (+200 XP • Insignia "Creador Digital" desbloqueada)' },
-      { text: 'Hacer un cronograma sin fechas límite para avanzar solo cuando tengas ganas.', ok: false, fb: '⚠️ Sin hitos temporales claros se pierde la autorregulación en modalidades 100% asincrónicas.' }
-    ],
-    xp: 200,
-    badge: '🎨 Creador Digital'
-  },
-  {
-    type: 'quiz',
-    tag: 'ESTACIÓN 3 • GESTIÓN EN LA NUBE Y SEGURIDAD (MÓDULO 23)',
-    title: 'Respaldo y Entrega en Portafolio Digital',
-    scenario: '<strong>Caso práctico:</strong> Has terminado tu cronograma y tu infografía. Debes compartirlos en un enlace de Google Drive para que tu Asesor Virtual los evalúe.',
-    question: '¿Qué configuración debes verificar antes de pegar tu enlace en la plataforma Moodle?',
-    options: [
-      { text: 'Dejar el archivo en modo "Restringido" por seguridad, aunque el asesor no pueda abrirlo.', ok: false, fb: '⚠️ Si el enlace está restringido, el Asesor Virtual no podrá visualizar tu evidencia y tu calificación se verá afectada.' },
-      { text: 'Organizar los archivos en una carpeta nombrada con la nomenclatura oficial y configurar el permiso como "Cualquier persona con el enlace: Lector".', ok: true, fb: '✅ ¡Misión cumplida! Garantizas accesibilidad para la evaluación y proteges tus archivos contra ediciones accidentales. (+250 XP • Insignia "Maestro del Tiempo" desbloqueada)' },
-      { text: 'Enviar los archivos pesados por correo personal en lugar de usar la nube.', ok: false, fb: '⚠️ El almacenamiento en la nube facilita el acceso multiplataforma y el seguimiento institucional en Moodle.' }
-    ],
-    xp: 250,
-    badge: '⏱️ Maestro del Tiempo'
-  },
-  {
-    type: 'end',
-    tag: 'META FINAL • CERTIFICACIÓN Y TESTEO DE USUARIO',
-    title: '¡Felicidades, Estudiante Digital Autónomo!'
-  }
-];
-
-let current = 0;
-let xp = 0;
-let badges = [];
-let selectedStars = 0;
-
-function render() {
-  const container = document.getElementById('screen-container');
-  const prog = Math.round((current / (stations.length - 1)) * 100);
-  document.getElementById('prog-bar').style.width = prog + '%';
-  document.getElementById('xp-score').innerText = xp;
-  document.getElementById('badge-count').innerText = badges.length + ' / 2';
-
-  const st = stations[current];
-
-  if (st.type === 'intro') {
-    container.innerHTML = `
-      <div class="card">
-        <span class="station-tag">${st.tag}</span>
-        <h2>${st.title}</h2>
-        <p>${st.desc}</p>
-        <div class="scenario-box">${st.scenario}</div>
-        <button class="btn-primary" onclick="nextStation()">${st.btnText}</button>
-      </div>`;
-  } else if (st.type === 'quiz') {
-    let optsHtml = st.options.map((o, idx) =>
-      `<button class="opt-btn" id="opt-${idx}" onclick="checkAnswer(${idx})">${o.text}</button>`
-    ).join('');
-    container.innerHTML = `
-      <div class="card">
-        <span class="station-tag">${st.tag}</span>
-        <h2>${st.title}</h2>
-        <div class="scenario-box">${st.scenario}</div>
-        <p><strong>${st.question}</strong></p>
-        <div class="options">${optsHtml}</div>
-        <div class="feedback" id="fb-box"></div>
-        <button class="btn-primary" id="next-btn" style="display:none;" onclick="nextStation()">Continuar Misión →</button>
-      </div>`;
-  } else if (st.type === 'end') {
-    container.innerHTML = `
-      <div class="card">
-        <span class="station-tag">${st.tag}</span>
-        <h2>${st.title}</h2>
-        <p>Has completado exitosamente la simulación gamificada acumulando <strong>${xp} XP</strong> y desbloqueando tus insignias de competencia digital:</p>
-        <div class="badges-grid">
-          <div class="badge-card">
-            <div class="badge-icon">🎨</div>
-            <strong>Insignia: Creador Digital</strong>
-            <p style="font-size:0.85rem;margin:4px 0 0;">Dominio de síntesis visual y diseño ético en Canva.</p>
-          </div>
-          <div class="badge-card">
-            <div class="badge-icon">⏱️</div>
-            <strong>Insignia: Maestro del Tiempo</strong>
-            <p style="font-size:0.85rem;margin:4px 0 0;">Planificación autorregulada y gestión segura en la nube.</p>
-          </div>
-        </div>
-        <hr style="border:none;border-top:1px solid #e0e6ed;margin:20px 0;">
-        <h3>📊 Testeo Rápido de Experiencia (Evaluación Gamificada)</h3>
-        <p style="font-size:0.95rem;">Califica del 0 al 5 qué tan útil y atractivo te pareció este simulador para tus actividades en Prepa en Línea-SEP:</p>
-        <div class="stars" id="star-rating">
-          <span onclick="setStars(1)">★</span>
-          <span onclick="setStars(2)">★</span>
-          <span onclick="setStars(3)">★</span>
-          <span onclick="setStars(4)">★</span>
-          <span onclick="setStars(5)">★</span>
-          <strong id="star-label" style="font-size:1rem;color:#2c3e50;margin-left:10px;">(0 / 5)</strong>
-        </div>
-        <textarea id="user-comment" rows="3" placeholder="Escribe brevemente el motivo de tu calificación..."></textarea>
-        <button class="btn-primary" onclick="submitFeedback()">Enviar Valoración</button>
-        <div class="feedback ok" id="thanks-box" style="margin-top:12px;"></div>
-      </div>`;
-  }
-}
-
-function checkAnswer(idx) {
-  const st = stations[current];
-  const chosen = st.options[idx];
-  const fbBox = document.getElementById('fb-box');
-  const nextBtn = document.getElementById('next-btn');
-
-  st.options.forEach((_, i) => {
-    const b = document.getElementById('opt-' + i);
-    b.classList.remove('correct', 'wrong');
-  });
-
-  const btn = document.getElementById('opt-' + idx);
-  if (chosen.ok) {
-    btn.classList.add('correct');
-    fbBox.className = 'feedback ok';
-    fbBox.innerHTML = chosen.fb;
-    fbBox.style.display = 'block';
-    nextBtn.style.display = 'inline-block';
-    if (!st.answered) {
-      xp += st.xp;
-      if (st.badge && !badges.includes(st.badge)) badges.push(st.badge);
-      st.answered = true;
-      document.getElementById('xp-score').innerText = xp;
-      document.getElementById('badge-count').innerText = badges.length + ' / 2';
-    }
-  } else {
-    btn.classList.add('wrong');
-    fbBox.className = 'feedback err';
-    fbBox.innerHTML = chosen.fb + '<br><em>Intenta seleccionar otra opción para continuar.</em>';
-    fbBox.style.display = 'block';
-  }
-}
-
-function nextStation() {
-  if (current < stations.length - 1) {
-    current++;
-    render();
-  }
-}
-
-function setStars(n) {
-  selectedStars = n;
-  const emojis = ['😐', '🙂', '😊', '😃', '🤩'];
-  const spans = document.querySelectorAll('#star-rating span');
-  spans.forEach((s, idx) => {
-    s.classList.toggle('active', idx < n);
-  });
-  document.getElementById('star-label').innerText = `(${n} / 5 ${emojis[n-1]})`;
-}
-
-function submitFeedback() {
-  const comment = document.getElementById('user-comment').value.trim();
-  const box = document.getElementById('thanks-box');
-  box.style.display = 'block';
-  box.innerHTML = `🎉 <strong>¡Gracias por tu retroalimentación!</strong> Has otorgado <strong>${selectedStars}/5 estrellas</strong>. ${comment ? 'Tu comentario ha sido registrado: "' + comment + '"' : ''}`;
-}
-
-render();
+var M=[
+{t:'El Formateador Académico',tool:'Word',ic:'📝',badge:'Formateador Académico',
+ obj:'Aplicar formato académico, corregir la ortografía e insertar una tabla.',
+ steps:['Mira la cápsula y los tutoriales.','Descarga la guía-reto en Word y sigue las instrucciones.','Revisa tu trabajo con la lista de cotejo.','Sube tu evidencia a tu asesor.'],
+ cr:[['Formato académico aplicado',25],['Ortografía corregida',15],['Tabla insertada y completada',20],['Entrega con el nombre de archivo correcto',10]],
+ q:['¿Qué función usas para detectar errores de ortografía automáticamente?',['Revisar › Ortografía y gramática','Insertar › Tabla','Diseño › Márgenes'],0]},
+{t:'Voz en Escena',tool:'PowerPoint',ic:'🎙️',badge:'Voz en Escena',
+ obj:'Crear una presentación legible con audio narrado y exportarla como video.',
+ steps:['Mira las cápsulas 2.1, 2.2 y 2.3.','Crea 4 diapositivas legibles.','Inserta tu voz en una diapositiva.','Exporta como MP4 y sube tu evidencia.'],
+ cr:[['Contenido de las 4 diapositivas',15],['Legibilidad del diseño',15],['Audio insertado y narrado',20],['Exportación a MP4',20]],
+ q:['Para entregar tu presentación como video, ¿en qué formato la exportas?',['MP4','DOCX','XLSX'],0]},
+{t:'El Diseñador Visual',tool:'Canva',ic:'🎨',badge:'Diseñador Visual',
+ obj:'Diseñar una presentación e infografía con uso ético de imágenes.',
+ steps:['Explora Canva Design School.','Diseña tu presentación con la descripción de la herramienta.','Crea una infografía del lugar donde vives.','Descarga en PDF de alta calidad.'],
+ cr:[['Descripción de la herramienta',20],['Infografía atractiva y clara',25],['Íconos y plantillas con créditos',10],['PDF de alta calidad',15]],
+ q:['Al usar imágenes de un banco gratuito, ¿qué debes hacer?',['Revisar la licencia y dar crédito','Usarla sin revisar nada','Cambiarle el color y listo'],0]},
+{t:'El Maestro del Tiempo',tool:'Tom’s Planner',ic:'⏱️',badge:'Maestro del Tiempo',
+ obj:'Planificar tus 4 semanas con un diagrama de Gantt.',
+ steps:['Mira las cápsulas 4.1 y 4.2.','Crea tu cronograma de 4 semanas.','Asigna bloques de estudio, trabajo y familia.','Marca tus días de entrega y sube tu evidencia.'],
+ cr:[['Cronograma Gantt creado',25],['Bloques de estudio, trabajo y familia',20],['Días de entrega marcados',15],['Plan coherente y realista',10]],
+ q:['Un diagrama de Gantt sirve para…',['Planificar tareas en el tiempo','Editar fotografías','Calcular promedios'],0]}];
+var F=[['¿Dónde se ajusta el interlineado de un documento?',['Inicio › Párrafo','Insertar › Imagen','Vista › Zoom'],0],
+['Para que una diapositiva sea legible conviene…',['Texto grande y buen contraste','Mucho texto en letra pequeña','Fondos muy llamativos'],0],
+['Para entregar una infografía con calidad la descargas en…',['PDF de alta calidad','Captura de pantalla borrosa','Texto plano'],0],
+['En tu agenda semanal debes marcar…',['Entregas y bloques de estudio','Solo los fines de semana','Nada, se improvisa'],0]];
+var LV=[[0,'Nivel 1 · Aprendiz'],[100,'Nivel 2 · Explorador'],[200,'Nivel 3 · Gestor Digital'],[350,'Nivel 4 · Líder Digital']];
+var KEY='ruta-egreso-v1',S=fresh();
+function fresh(){return{m:[0,1,2,3].map(function(){return{c:[0,0,0,0],q:-1,b:0}}),f:[-1,-1,-1,-1]}}
+try{var raw=localStorage.getItem(KEY);if(raw){S=JSON.parse(raw)}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function mx(i){var m=S.m[i],d=M[i],x=0;d.cr.forEach(function(c,k){if(m.c[k])x+=c[1]});if(m.q===d.q[2])x+=20;if(m.b)x+=10;return x}
+function fx(){var x=0;S.f.forEach(function(v,i){if(v===F[i][2])x+=20});return x}
+function total(){var t=fx();for(var i=0;i<4;i++)t+=mx(i);return t}
+function open_(i){return i===0||mx(i-1)>=70}
+function level(t){var l=0;LV.forEach(function(v,i){if(t>=v[0])l=i});return l}
+function go(h){location.hash=h}
+function route(){var h=location.hash.slice(1);if(!h&&!S.seen)return'inicio';return/^(mapa|logros|final|opina|inicio|m[1-4])$/.test(h)?h:'mapa'}
+function tg(i,k){S.m[i].c[k]=S.m[i].c[k]?0:1;save();draw()}
+function bn(i){S.m[i].b=S.m[i].b?0:1;save();draw()}
+function pq(i,o){S.m[i].q=o;save();draw()}
+function pf(i,o){S.f[i]=o;save();draw()}
+function reset(){if(!S.rq){S.rq=1;draw();return}S=fresh();save();go('mapa');draw()}
+function opts(q,sel,fn){return q[1].map(function(o,k){var c=sel===k?(k===q[2]?' ok':' no'):'';return'<button class="opt'+c+'" onclick="'+fn+','+k+')">'+o+'</button>'}).join('')+
+ (sel<0?'':'<div class="fb">'+(sel===q[2]?'✅ ¡Correcto! Ganaste XP.':'🔁 Casi. Puedes intentarlo las veces que necesites, sin perder XP.')+'</div>')}
+function mapa(){var cur=-1,h='<h2>Tu mapa</h2><p class="mut">Completa cada misión con al menos 70 XP para abrir la siguiente.</p>';
+ for(var i=0;i<4;i++){var o=open_(i),dn=mx(i)>=70;if(o&&!dn&&cur<0)cur=i;
+  var st=dn?'done':(o?'cur':'lock');
+  h+='<button class="card node '+st+'" '+(o?'onclick="go(\'m'+(i+1)+'\')"':'disabled')+'><span class="ic">'+(dn?'✓':(o?M[i].ic:'🔒'))+'</span><span><b>Misión '+(i+1)+' · '+M[i].t+'</b><small>'+M[i].tool+' · '+mx(i)+'/100 XP'+(o?'':' · bloqueada')+'</small></span></button><div class="link"></div>'}
+ var fo=mx(3)>=70;
+ h+='<button class="card node '+(fo?'cur':'lock')+'" '+(fo?'onclick="go(\'final\')"':'disabled')+'><span class="ic">'+(fo?'🏆':'🔒')+'</span><span><b>Jefe final</b><small>Kahoot simulado · '+fx()+'/80 XP</small></span></button>';
+ return h}
+function mision(i){var d=M[i],m=S.m[i],h='<button class="back" onclick="go(\'mapa\')">‹ Volver al mapa</button><h2>'+d.ic+' Misión '+(i+1)+' · '+d.t+'</h2><p class="mut"><b>'+d.tool+'</b> · '+d.obj+'</p>';
+ if(!open_(i))return h+'<div class="card">🔒 Esta misión se abre al lograr 70 XP en la anterior.</div>';
+ h+='<div class="vid"><div><span>▶️</span>Aquí se inserta la videocápsula «En 5 minutos»<br>(prototipo)</div></div><h3>Tu ruta</h3><div class="card"><ol style="margin:0;padding-left:20px">'+d.steps.map(function(s){return'<li>'+s+'</li>'}).join('')+'</ol></div>';
+ h+='<h3>Lista de cotejo del reto (70 XP)</h3>'+d.cr.map(function(c,k){return'<label class="ck"><input type="checkbox" '+(m.c[k]?'checked':'')+' onchange="tg('+i+','+k+')"><span>'+c[0]+'</span><em>'+c[1]+' XP</em></label>'}).join('');
+ h+='<h3>Mini-juego de práctica (20 XP)</h3><div class="card"><p style="margin-top:0"><b>'+d.q[0]+'</b></p>'+opts(d.q,m.q,'pq('+i)+'</div>';
+ h+='<label class="ck"><input type="checkbox" '+(m.b?'checked':'')+' onchange="bn('+i+')"><span>Entregué mi reto en fecha (bono)</span><em>10 XP</em></label>';
+ var x=mx(i);h+='<div class="tot"><span>XP de esta misión</span><span>'+x+' / 100</span></div>';
+ h+=x>=70?'<p class="fb">🏅 ¡Insignia «'+d.badge+'» lograda! '+(i<3?'La siguiente misión ya está abierta.':'Se abrió el Jefe final.')+'</p><button class="btn alt" onclick="go(\''+(i<3?'m'+(i+2):'final')+'\')">'+(i<3?'Ir a la siguiente misión':'Ir al Jefe final')+'</button>':'<p class="mut">Alcanza 70 XP para ganar la insignia y desbloquear lo siguiente.</p>';
+ return h}
+function fin(){var h='<button class="back" onclick="go(\'mapa\')">‹ Volver al mapa</button><h2>🏆 Jefe final</h2><p class="mut">Una pregunta por herramienta, 20 XP cada una. Reintentos ilimitados.</p>';
+ if(mx(3)<70)return h+'<div class="card">🔒 Termina la Misión 4 para abrirlo.</div>';
+ F.forEach(function(q,i){h+='<div class="card"><p style="margin-top:0"><b>'+(i+1)+'. '+q[0]+'</b></p>'+opts(q,S.f[i],'pf('+i)+'</div>'});
+ return h+'<div class="tot"><span>XP del Jefe final</span><span>'+fx()+' / 80</span></div><p style="text-align:center;margin-top:14px"><button class="btn alt" onclick="go(\'opina\')">⭐ Calificar mi experiencia</button></p>'}
+function logros(){var t=total(),l=level(t),h='<h2>Mis logros</h2><div class="card"><b>'+LV[l][1]+'</b><p class="mut" style="margin:4px 0 0">'+t+' XP acumulados'+(l<3?' · faltan '+(LV[l+1][0]-t)+' XP para el siguiente nivel':' · ¡nivel máximo!')+'</p></div><div class="grid">';
+ M.forEach(function(d,i){var on=mx(i)>=70;h+='<div class="card bdg '+(on?'on':'')+'"><div class="c">'+(on?d.ic:'🔒')+'</div><b>'+d.badge+'</b><div class="mut">'+(on?'Lograda':'Logra 70 XP en la misión '+(i+1))+'</div></div>'});
+ var ld=t>=350;h+='<div class="card bdg '+(ld?'on':'')+'"><div class="c">'+(ld?'🌟':'🔒')+'</div><b>Líder Digital</b><div class="mut">'+(ld?'¡Lograda!':'Llega a 350 XP')+'</div></div></div>';
+ return h+'<p style="text-align:center"><button class="btn ghost" onclick="reset()">'+(S.rq?'¿Seguro? Toca otra vez':'Reiniciar progreso')+'</button></p>'}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+var RL=['Necesita mucha mejora','Mejorable','Aceptable','Bueno','Muy bueno','¡Excelente!'],EM=['😞','😕','🙂','😀','🤩'],CH=['Fácil de usar','Divertido','Útil para mi prepa','Instrucciones claras','Me motivó a avanzar','Me costó trabajo'];
+function inicio(){return `<div class="card story"><h2>🗺️ La Generación 60 rumbo al egreso</h2><p>Estás a punto de cruzar la meta: tu egreso de la prepa. Antes del Campamento Final necesitas reunir <b>cuatro llaves digitales</b>: Word 📝, PowerPoint 🎙️, Canva 🎨 y Tom’s Planner ⏱️.</p><p>Cada misión es breve, puedes equivocarte las veces que quieras y cada logro te da XP, niveles e insignias.</p><p><b>🧪 Eres parte del equipo de prueba.</b> Recorre la ruta y, al terminar, regálanos de 0 a 5 estrellas y cuéntanos por qué.</p></div><button class="btn" onclick="S.seen=1;save();go('mapa')">Comenzar la expedición →</button>`}
+function sumr(){var r=S.r;return ['Calificación: '+r.s+'/5 ('+RL[r.s]+')'+(r.e>=0?' '+EM[r.e]:''),'Destaco: '+(r.c.length?r.c.map(function(k){return CH[k]}).join(', '):'—'),'Motivo: '+(r.t||'—'),'Nivel alcanzado: '+LV[level(total())][1]+' ('+total()+' XP)'].join(String.fromCharCode(10))}
+function rs(v){S.r.s=v;S.r.d=0;save();draw()}
+function re(v){S.r.e=v;save();draw()}
+function rc(k){var a=S.r.c,i=a.indexOf(k);if(i<0)a.push(k);else a.splice(i,1);save();draw()}
+function rt(v){S.r.t=v;save()}
+function rsave(){if(S.r.s<0){S.r.d=-1;draw();return}S.r.d=1;save();try{navigator.clipboard.writeText(sumr()).catch(function(){})}catch(e){}draw()}
+function opina(){S.r=S.r||{s:-1,e:-1,c:[],t:'',d:0};var r=S.r;
+ var st=[1,2,3,4,5].map(function(k){return `<button class="${r.s>=k?'on':''}" aria-label="${k} estrellas" onclick="rs(${k})">⭐</button>`}).join('');
+ var em=EM.map(function(x,k){return `<button class="${r.e===k?'on':''}" aria-label="Emoji ${k+1}" onclick="re(${k})">${x}</button>`}).join('');
+ var ch=CH.map(function(x,k){return `<button class="chip ${r.c.indexOf(k)>=0?'on':''}" onclick="rc(${k})">${x}</button>`}).join('');
+ var h=`<h2>⭐ Califica tu experiencia</h2><p class="mut">Tu opinión ayuda a mejorar la ruta. De 0 a 5 estrellas, ¿cómo te fue?</p><div class="card"><div class="stars">${st}</div><p style="text-align:center;margin:0"><button class="chip ${r.s===0?'on':''}" onclick="rs(0)">0 · Nada útil</button></p><p style="text-align:center;font-weight:700;margin:8px 0 0">${r.s>=0?r.s+'/5 · '+RL[r.s]:'Elige tu calificación'}</p><h3>¿Cómo te sentiste?</h3><div class="emo">${em}</div><h3>¿Qué destacarías?</h3>${ch}<h3>Cuéntanos el motivo de tu calificación</h3><textarea oninput="rt(this.value)" placeholder="Escribe en una o dos frases por qué diste esa calificación…">${esc(r.t)}</textarea><p><button class="btn" onclick="rsave()">Guardar mi calificación</button></p></div>`;
+ if(r.d===-1)h+=`<div class="card">☝️ Elige primero de 0 a 5 estrellas para guardar tu calificación.</div>`;
+ if(r.d===1)h+=`<div class="card"><b>✅ ¡Gracias! Tu reseña quedó guardada en este dispositivo.</b><p class="mut">Cópiala y pégala en el formulario que te indique tu asesor:</p><textarea readonly onclick="this.select()">${esc(sumr())}</textarea></div>`;
+ return h}
+function draw(){var r=route(),t=total(),l=level(t),n=LV[l+1]?LV[l+1][0]:480,b=LV[l][0];
+ document.getElementById('lvl').textContent=LV[l][1];
+ document.getElementById('bar').style.width=Math.min(100,(t-b)/Math.max(1,n-b)*100)+'%';
+ document.getElementById('xp').textContent=t+' XP'+(LV[l+1]?' · siguiente nivel en '+n:'');
+ ['mapa','logros','opina'].forEach(function(k,i){document.getElementById('n'+(i+1)).className=(r===k||(k==='mapa'&&/^(m[1-4]|final|inicio)$/.test(r)))?'on':''});
+ var v=r==='mapa'?mapa():r==='logros'?logros():r==='final'?fin():r==='inicio'?inicio():r==='opina'?opina():mision(+r[1]-1);
+ var y=window.scrollY;document.getElementById('app').innerHTML=v;if(window._r!==r){window.scrollTo(0,0);window._r=r}else window.scrollTo(0,y)}
+window.addEventListener('hashchange',draw);draw();
 </script>
 </body>
 </html>
