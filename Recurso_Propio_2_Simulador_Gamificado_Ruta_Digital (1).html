@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador Gamificado: Ruta del Diseñador y Gestor Digital</title>
+<style>
+  :root {
+    --guinda: #691C32;
+    --guinda-dark: #4a1222;
+    --petroleo: #1C4E5C;
+    --dorado: #BC955C;
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --success: #2e7d32;
+    --error: #c62828;
+  }
+  * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--text); }
+  header {
+    background: linear-gradient(135deg, var(--guinda), var(--petroleo));
+    color: white;
+    padding: 18px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+  header h1 { margin: 0; font-size: 1.35rem; }
+  header p { margin: 4px 0 0; font-size: 0.9rem; opacity: 0.9; }
+  .hud {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: rgba(255,255,255,0.12);
+    padding: 10px 16px;
+    border-radius: 10px;
+    margin-top: 8px;
+  }
+  .hud-item { font-weight: bold; font-size: 0.95rem; }
+  .badge-pill {
+    background: var(--dorado);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+  }
+  .container { max-width: 880px; margin: 28px auto; padding: 0 16px; }
+  .progress-wrap {
+    background: #dce2e8;
+    border-radius: 20px;
+    height: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .progress-bar {
+    background: linear-gradient(90deg, var(--dorado), var(--petroleo));
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    border-top: 5px solid var(--guinda);
+    animation: fadeIn 0.35s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .station-tag {
+    display: inline-block;
+    background: #eef4f6;
+    color: var(--petroleo);
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+  h2 { color: var(--guinda); margin-top: 4px; font-size: 1.4rem; }
+  .scenario-box {
+    background: #fcf9f2;
+    border-left: 4px solid var(--dorado);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+    line-height: 1.55;
+  }
+  .options { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+  .opt-btn {
+    text-align: left;
+    background: #f8fafc;
+    border: 2px solid #d8e1e8;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+  }
+  .opt-btn:hover { border-color: var(--petroleo); background: #eef5f7; }
+  .opt-btn.correct { border-color: var(--success); background: #e8f5e9; color: #1b5e20; font-weight: 600; }
+  .opt-btn.wrong { border-color: var(--error); background: #ffebee; color: #b71c1c; }
+  .feedback {
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 8px;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback.ok { background: #e8f5e9; border-left: 4px solid var(--success); color: #1b5e20; }
+  .feedback.err { background: #fff3e0; border-left: 4px solid #ef6c00; color: #e65100; }
+  .btn-primary {
+    margin-top: 20px;
+    background: var(--guinda);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--guinda-dark); }
+  .badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .badge-card {
+    border: 2px solid var(--dorado);
+    background: #fffdf8;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .badge-icon { font-size: 2.5rem; margin-bottom: 8px; }
+  .stars { font-size: 1.8rem; cursor: pointer; color: #ccc; user-select: none; }
+  .stars span.active { color: #f5b301; }
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+    font-size: 0.95rem;
+  }
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85rem;
+    color: #6c7a89;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🚀 Misión Digital: Ruta del Diseñador y Gestor</h1>
+    <p>Objeto de Aprendizaje Gamificado • Prepa en Línea-SEP</p>
+  </div>
+  <div class="hud">
+    <div class="hud-item">⭐ Puntos: <span id="xp-score">0</span> XP</div>
+    <div class="hud-item">🏅 Insignias: <span id="badge-count" class="badge-pill">0 / 2</span></div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
+  <div id="screen-container"></div>
+</div>
+
+<footer>
+  Autoría propia: Alejandra Zarco Maya • Maestría en Ambientes, Sistemas y Gestión en Educación Multimodal (UNRC).
+</footer>
+
+<script>
+const stations = [
+  {
+    type: 'intro',
+    tag: 'ESTACIÓN 0 • BIENVENIDA A LA MISIÓN',
+    title: '¡Bienvenido(a) a la Ruta del Diseñador y Gestor Digital!',
+    desc: 'Estás a punto de resolver 3 retos reales que enfrentan los estudiantes de Prepa en Línea-SEP en sus módulos avanzados (especialmente en el Módulo 23 de gestión de proyectos).',
+    scenario: '<strong>Tu objetivo:</strong> Tomar decisiones estratégicas sobre diseño visual en <strong>Canva</strong>, gestión del tiempo con <strong>Tom's Planner</strong> y resguardo seguro en la <strong>Nube</strong> para desbloquear tus insignias de competencia digital.',
+    btnText: 'Comenzar Desafío 1 →'
+  },
+  {
+    type: 'quiz',
+    tag: 'ESTACIÓN 1 • DISEÑO VISUAL EN CANVA (RETO 4)',
+    title: 'Comunicando tu Proyecto Comunitario',
+    scenario: '<strong>Caso práctico:</strong> Debes entregar una infografía en Canva sobre una problemática de tu comunidad para tu actividad integradora. Tienes mucha información investigada y poco espacio en la plantilla.',
+    question: '¿Cuál es la decisión más efectiva para lograr un diseño claro, ético y profesional?',
+    options: [
+      { text: 'Copiar y pegar párrafos completos de internet en letra tamaño 8 para que quepa todo el texto.', ok: false, fb: '⚠️ ¡Cuidado! Saturar de texto dificulta la lectura y copiar sin citar viola la integridad académica.' },
+      { text: 'Sintetizar las ideas clave en bloques breves, usar íconos visuales de apoyo, incluir fuentes confiables al pie y descargar en PDF estándar.', ok: true, fb: '✅ ¡Excelente decisión! Sintetizar la información, equilibrar texto con elementos visuales y citar fuentes demuestra alfabetización informacional y dominio de Canva. (+150 XP)' },
+      { text: 'Usar 6 tipos de letra distintos y colores neón de fondo para llamar la atención del asesor virtual.', ok: false, fb: '⚠️ El exceso de tipografías y colores brillantes genera fatiga visual y resta formalidad académica.' }
+    ],
+    xp: 150,
+    badge: null
+  },
+  {
+    type: 'quiz',
+    tag: 'ESTACIÓN 2 • GESTIÓN DEL TIEMPO CON TOM'S PLANNER (RETO 5)',
+    title: 'Organizando la Semana sin Estrés',
+    scenario: '<strong>Caso práctico:</strong> Trabajas de lunes a viernes y tienes hasta el domingo a las 23:55 hrs para entregar dos actividades integradoras y participar en el foro.',
+    question: '¿Cómo debes estructurar tu diagrama de Gantt en Tom's Planner para asegurar tu entrega a tiempo?',
+    options: [
+      { text: 'Dejar todas las actividades para el domingo por la tarde para hacerlas de una sola vez.', ok: false, fb: '⚠️ Riesgo alto: El domingo por la noche la plataforma suele saturarse y no tendrás margen ante fallas de internet.' },
+      { text: 'Asignar bloques diarios de 45 minutos (lunes a viernes) divididos por fases: lectura de recursos, borrador, revisión y entrega anticipada el sábado.', ok: true, fb: '✅ ¡Brillante! Dividir el proyecto en micro-tareas diarias con un margen de seguridad el sábado fortalece tu aprendizaje autorregulado y evita el abandono. (+200 XP • Insignia "Creador Digital" desbloqueada)' },
+      { text: 'Hacer un cronograma sin fechas límite para avanzar solo cuando tengas ganas.', ok: false, fb: '⚠️ Sin hitos temporales claros se pierde la autorregulación en modalidades 100% asincrónicas.' }
+    ],
+    xp: 200,
+    badge: '🎨 Creador Digital'
+  },
+  {
+    type: 'quiz',
+    tag: 'ESTACIÓN 3 • GESTIÓN EN LA NUBE Y SEGURIDAD (MÓDULO 23)',
+    title: 'Respaldo y Entrega en Portafolio Digital',
+    scenario: '<strong>Caso práctico:</strong> Has terminado tu cronograma y tu infografía. Debes compartirlos en un enlace de Google Drive para que tu Asesor Virtual los evalúe.',
+    question: '¿Qué configuración debes verificar antes de pegar tu enlace en la plataforma Moodle?',
+    options: [
+      { text: 'Dejar el archivo en modo "Restringido" por seguridad, aunque el asesor no pueda abrirlo.', ok: false, fb: '⚠️ Si el enlace está restringido, el Asesor Virtual no podrá visualizar tu evidencia y tu calificación se verá afectada.' },
+      { text: 'Organizar los archivos en una carpeta nombrada con la nomenclatura oficial y configurar el permiso como "Cualquier persona con el enlace: Lector".', ok: true, fb: '✅ ¡Misión cumplida! Garantizas accesibilidad para la evaluación y proteges tus archivos contra ediciones accidentales. (+250 XP • Insignia "Maestro del Tiempo" desbloqueada)' },
+      { text: 'Enviar los archivos pesados por correo personal en lugar de usar la nube.', ok: false, fb: '⚠️ El almacenamiento en la nube facilita el acceso multiplataforma y el seguimiento institucional en Moodle.' }
+    ],
+    xp: 250,
+    badge: '⏱️ Maestro del Tiempo'
+  },
+  {
+    type: 'end',
+    tag: 'META FINAL • CERTIFICACIÓN Y TESTEO DE USUARIO',
+    title: '¡Felicidades, Estudiante Digital Autónomo!'
+  }
+];
+
+let current = 0;
+let xp = 0;
+let badges = [];
+let selectedStars = 0;
+
+function render() {
+  const container = document.getElementById('screen-container');
+  const prog = Math.round((current / (stations.length - 1)) * 100);
+  document.getElementById('prog-bar').style.width = prog + '%';
+  document.getElementById('xp-score').innerText = xp;
+  document.getElementById('badge-count').innerText = badges.length + ' / 2';
+
+  const st = stations[current];
+
+  if (st.type === 'intro') {
+    container.innerHTML = `
+      <div class="card">
+        <span class="station-tag">${st.tag}</span>
+        <h2>${st.title}</h2>
+        <p>${st.desc}</p>
+        <div class="scenario-box">${st.scenario}</div>
+        <button class="btn-primary" onclick="nextStation()">${st.btnText}</button>
+      </div>`;
+  } else if (st.type === 'quiz') {
+    let optsHtml = st.options.map((o, idx) =>
+      `<button class="opt-btn" id="opt-${idx}" onclick="checkAnswer(${idx})">${o.text}</button>`
+    ).join('');
+    container.innerHTML = `
+      <div class="card">
+        <span class="station-tag">${st.tag}</span>
+        <h2>${st.title}</h2>
+        <div class="scenario-box">${st.scenario}</div>
+        <p><strong>${st.question}</strong></p>
+        <div class="options">${optsHtml}</div>
+        <div class="feedback" id="fb-box"></div>
+        <button class="btn-primary" id="next-btn" style="display:none;" onclick="nextStation()">Continuar Misión →</button>
+      </div>`;
+  } else if (st.type === 'end') {
+    container.innerHTML = `
+      <div class="card">
+        <span class="station-tag">${st.tag}</span>
+        <h2>${st.title}</h2>
+        <p>Has completado exitosamente la simulación gamificada acumulando <strong>${xp} XP</strong> y desbloqueando tus insignias de competencia digital:</p>
+        <div class="badges-grid">
+          <div class="badge-card">
+            <div class="badge-icon">🎨</div>
+            <strong>Insignia: Creador Digital</strong>
+            <p style="font-size:0.85rem;margin:4px 0 0;">Dominio de síntesis visual y diseño ético en Canva.</p>
+          </div>
+          <div class="badge-card">
+            <div class="badge-icon">⏱️</div>
+            <strong>Insignia: Maestro del Tiempo</strong>
+            <p style="font-size:0.85rem;margin:4px 0 0;">Planificación autorregulada y gestión segura en la nube.</p>
+          </div>
+        </div>
+        <hr style="border:none;border-top:1px solid #e0e6ed;margin:20px 0;">
+        <h3>📊 Testeo Rápido de Experiencia (Evaluación Gamificada)</h3>
+        <p style="font-size:0.95rem;">Califica del 0 al 5 qué tan útil y atractivo te pareció este simulador para tus actividades en Prepa en Línea-SEP:</p>
+        <div class="stars" id="star-rating">
+          <span onclick="setStars(1)">★</span>
+          <span onclick="setStars(2)">★</span>
+          <span onclick="setStars(3)">★</span>
+          <span onclick="setStars(4)">★</span>
+          <span onclick="setStars(5)">★</span>
+          <strong id="star-label" style="font-size:1rem;color:#2c3e50;margin-left:10px;">(0 / 5)</strong>
+        </div>
+        <textarea id="user-comment" rows="3" placeholder="Escribe brevemente el motivo de tu calificación..."></textarea>
+        <button class="btn-primary" onclick="submitFeedback()">Enviar Valoración</button>
+        <div class="feedback ok" id="thanks-box" style="margin-top:12px;"></div>
+      </div>`;
+  }
+}
+
+function checkAnswer(idx) {
+  const st = stations[current];
+  const chosen = st.options[idx];
+  const fbBox = document.getElementById('fb-box');
+  const nextBtn = document.getElementById('next-btn');
+
+  st.options.forEach((_, i) => {
+    const b = document.getElementById('opt-' + i);
+    b.classList.remove('correct', 'wrong');
+  });
+
+  const btn = document.getElementById('opt-' + idx);
+  if (chosen.ok) {
+    btn.classList.add('correct');
+    fbBox.className = 'feedback ok';
+    fbBox.innerHTML = chosen.fb;
+    fbBox.style.display = 'block';
+    nextBtn.style.display = 'inline-block';
+    if (!st.answered) {
+      xp += st.xp;
+      if (st.badge && !badges.includes(st.badge)) badges.push(st.badge);
+      st.answered = true;
+      document.getElementById('xp-score').innerText = xp;
+      document.getElementById('badge-count').innerText = badges.length + ' / 2';
+    }
+  } else {
+    btn.classList.add('wrong');
+    fbBox.className = 'feedback err';
+    fbBox.innerHTML = chosen.fb + '<br><em>Intenta seleccionar otra opción para continuar.</em>';
+    fbBox.style.display = 'block';
+  }
+}
+
+function nextStation() {
+  if (current < stations.length - 1) {
+    current++;
+    render();
+  }
+}
+
+function setStars(n) {
+  selectedStars = n;
+  const emojis = ['😐', '🙂', '😊', '😃', '🤩'];
+  const spans = document.querySelectorAll('#star-rating span');
+  spans.forEach((s, idx) => {
+    s.classList.toggle('active', idx < n);
+  });
+  document.getElementById('star-label').innerText = `(${n} / 5 ${emojis[n-1]})`;
+}
+
+function submitFeedback() {
+  const comment = document.getElementById('user-comment').value.trim();
+  const box = document.getElementById('thanks-box');
+  box.style.display = 'block';
+  box.innerHTML = `🎉 <strong>¡Gracias por tu retroalimentación!</strong> Has otorgado <strong>${selectedStars}/5 estrellas</strong>. ${comment ? 'Tu comentario ha sido registrado: "' + comment + '"' : ''}`;
+}
+
+render();
+</script>
+</body>
+</html>
