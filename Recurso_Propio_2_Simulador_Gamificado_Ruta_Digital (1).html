@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador Gamificado: Ruta del Diseñador y Gestor Digital</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador Gamificado: Ruta del DiseÃ±ador y Gestor Digital</title>
+  <style>
   :root {
     --guinda: #691C32;
     --guinda-dark: #4a1222;
@@ -156,18 +156,18 @@
     font-size: 0.85rem;
     color: #6c7a89;
   }
-</style>
+  </style>
 </head>
 <body>
 
 <header>
   <div>
-    <h1>🚀 Misión Digital: Ruta del Diseñador y Gestor</h1>
-    <p>Objeto de Aprendizaje Gamificado • Prepa en Línea-SEP</p>
+    <h1>ðŸš€ MisiÃ³n Digital: Ruta del DiseÃ±ador y Gestor</h1>
+    <p>Objeto de Aprendizaje Gamificado â€¢ Prepa en LÃ­nea-SEP</p>
   </div>
   <div class="hud">
-    <div class="hud-item">⭐ Puntos: <span id="xp-score">0</span> XP</div>
-    <div class="hud-item">🏅 Insignias: <span id="badge-count" class="badge-pill">0 / 2</span></div>
+    <div class="hud-item">â­ Puntos: <span id="xp-score">0</span> XP</div>
+    <div class="hud-item">ðŸ… Insignias: <span id="badge-count" class="badge-pill">0 / 2</span></div>
   </div>
 </header>
 
@@ -177,65 +177,65 @@
 </div>
 
 <footer>
-  Autoría propia: Alejandra Zarco Maya • Maestría en Ambientes, Sistemas y Gestión en Educación Multimodal (UNRC).
+  AutorÃ­a propia: Alejandra Zarco Maya â€¢ MaestrÃ­a en Ambientes, Sistemas y GestiÃ³n en EducaciÃ³n Multimodal (UNRC).
 </footer>
 
 <script>
 const stations = [
   {
     type: 'intro',
-    tag: 'ESTACIÓN 0 • BIENVENIDA A LA MISIÓN',
-    title: '¡Bienvenido(a) a la Ruta del Diseñador y Gestor Digital!',
-    desc: 'Estás a punto de resolver 3 retos reales que enfrentan los estudiantes de Prepa en Línea-SEP en sus módulos avanzados (especialmente en el Módulo 23 de gestión de proyectos).',
-    scenario: '<strong>Tu objetivo:</strong> Tomar decisiones estratégicas sobre diseño visual en <strong>Canva</strong>, gestión del tiempo con <strong>Tom's Planner</strong> y resguardo seguro en la <strong>Nube</strong> para desbloquear tus insignias de competencia digital.',
-    btnText: 'Comenzar Desafío 1 →'
+    tag: 'ESTACIÃ“N 0 â€¢ BIENVENIDA A LA MISIÃ“N',
+    title: 'Â¡Bienvenido(a) a la Ruta del DiseÃ±ador y Gestor Digital!',
+    desc: 'EstÃ¡s a punto de resolver 3 retos reales que enfrentan los estudiantes de Prepa en LÃ­nea-SEP en sus mÃ³dulos avanzados (especialmente en el MÃ³dulo 23 de gestiÃ³n de proyectos).',
+    scenario: '<strong>Tu objetivo:</strong> Tomar decisiones estratÃ©gicas sobre diseÃ±o visual en <strong>Canva</strong>, gestiÃ³n del tiempo con <strong>Tom's Planner</strong> y resguardo seguro en la <strong>Nube</strong> para desbloquear tus insignias de competencia digital.',
+    btnText: 'Comenzar DesafÃ­o 1 â†’'
   },
   {
     type: 'quiz',
-    tag: 'ESTACIÓN 1 • DISEÑO VISUAL EN CANVA (RETO 4)',
+    tag: 'ESTACIÃ“N 1 â€¢ DISEÃ‘O VISUAL EN CANVA (RETO 4)',
     title: 'Comunicando tu Proyecto Comunitario',
-    scenario: '<strong>Caso práctico:</strong> Debes entregar una infografía en Canva sobre una problemática de tu comunidad para tu actividad integradora. Tienes mucha información investigada y poco espacio en la plantilla.',
-    question: '¿Cuál es la decisión más efectiva para lograr un diseño claro, ético y profesional?',
+    scenario: '<strong>Caso prÃ¡ctico:</strong> Debes entregar una infografÃ­a en Canva sobre una problemÃ¡tica de tu comunidad para tu actividad integradora. Tienes mucha informaciÃ³n investigada y poco espacio en la plantilla.',
+    question: 'Â¿CuÃ¡l es la decisiÃ³n mÃ¡s efectiva para lograr un diseÃ±o claro, Ã©tico y profesional?',
     options: [
-      { text: 'Copiar y pegar párrafos completos de internet en letra tamaño 8 para que quepa todo el texto.', ok: false, fb: '⚠️ ¡Cuidado! Saturar de texto dificulta la lectura y copiar sin citar viola la integridad académica.' },
-      { text: 'Sintetizar las ideas clave en bloques breves, usar íconos visuales de apoyo, incluir fuentes confiables al pie y descargar en PDF estándar.', ok: true, fb: '✅ ¡Excelente decisión! Sintetizar la información, equilibrar texto con elementos visuales y citar fuentes demuestra alfabetización informacional y dominio de Canva. (+150 XP)' },
-      { text: 'Usar 6 tipos de letra distintos y colores neón de fondo para llamar la atención del asesor virtual.', ok: false, fb: '⚠️ El exceso de tipografías y colores brillantes genera fatiga visual y resta formalidad académica.' }
+      { text: 'Copiar y pegar pÃ¡rrafos completos de internet en letra tamaÃ±o 8 para que quepa todo el texto.', ok: false, fb: 'âš ï¸ Â¡Cuidado! Saturar de texto dificulta la lectura y copiar sin citar viola la integridad acadÃ©mica.' },
+      { text: 'Sintetizar las ideas clave en bloques breves, usar Ã­conos visuales de apoyo, incluir fuentes confiables al pie y descargar en PDF estÃ¡ndar.', ok: true, fb: 'âœ… Â¡Excelente decisiÃ³n! Sintetizar la informaciÃ³n, equilibrar texto con elementos visuales y citar fuentes demuestra alfabetizaciÃ³n informacional y dominio de Canva. (+150 XP)' },
+      { text: 'Usar 6 tipos de letra distintos y colores neÃ³n de fondo para llamar la atenciÃ³n del asesor virtual.', ok: false, fb: 'âš ï¸ El exceso de tipografÃ­as y colores brillantes genera fatiga visual y resta formalidad acadÃ©mica.' }
     ],
     xp: 150,
     badge: null
   },
   {
     type: 'quiz',
-    tag: 'ESTACIÓN 2 • GESTIÓN DEL TIEMPO CON TOM'S PLANNER (RETO 5)',
-    title: 'Organizando la Semana sin Estrés',
-    scenario: '<strong>Caso práctico:</strong> Trabajas de lunes a viernes y tienes hasta el domingo a las 23:55 hrs para entregar dos actividades integradoras y participar en el foro.',
-    question: '¿Cómo debes estructurar tu diagrama de Gantt en Tom's Planner para asegurar tu entrega a tiempo?',
+    tag: 'ESTACIÃ“N 2 â€¢ GESTIÃ“N DEL TIEMPO CON TOM'S PLANNER (RETO 5)',
+    title: 'Organizando la Semana sin EstrÃ©s',
+    scenario: '<strong>Caso prÃ¡ctico:</strong> Trabajas de lunes a viernes y tienes hasta el domingo a las 23:55 hrs para entregar dos actividades integradoras y participar en el foro.',
+    question: 'Â¿CÃ³mo debes estructurar tu diagrama de Gantt en Tom's Planner para asegurar tu entrega a tiempo?',
     options: [
-      { text: 'Dejar todas las actividades para el domingo por la tarde para hacerlas de una sola vez.', ok: false, fb: '⚠️ Riesgo alto: El domingo por la noche la plataforma suele saturarse y no tendrás margen ante fallas de internet.' },
-      { text: 'Asignar bloques diarios de 45 minutos (lunes a viernes) divididos por fases: lectura de recursos, borrador, revisión y entrega anticipada el sábado.', ok: true, fb: '✅ ¡Brillante! Dividir el proyecto en micro-tareas diarias con un margen de seguridad el sábado fortalece tu aprendizaje autorregulado y evita el abandono. (+200 XP • Insignia "Creador Digital" desbloqueada)' },
-      { text: 'Hacer un cronograma sin fechas límite para avanzar solo cuando tengas ganas.', ok: false, fb: '⚠️ Sin hitos temporales claros se pierde la autorregulación en modalidades 100% asincrónicas.' }
+      { text: 'Dejar todas las actividades para el domingo por la tarde para hacerlas de una sola vez.', ok: false, fb: 'âš ï¸ Riesgo alto: El domingo por la noche la plataforma suele saturarse y no tendrÃ¡s margen ante fallas de internet.' },
+      { text: 'Asignar bloques diarios de 45 minutos (lunes a viernes) divididos por fases: lectura de recursos, borrador, revisiÃ³n y entrega anticipada el sÃ¡bado.', ok: true, fb: 'âœ… Â¡Brillante! Dividir el proyecto en micro-tareas diarias con un margen de seguridad el sÃ¡bado fortalece tu aprendizaje autorregulado y evita el abandono. (+200 XP â€¢ Insignia "Creador Digital" desbloqueada)' },
+      { text: 'Hacer un cronograma sin fechas lÃ­mite para avanzar solo cuando tengas ganas.', ok: false, fb: 'âš ï¸ Sin hitos temporales claros se pierde la autorregulaciÃ³n en modalidades 100% asincrÃ³nicas.' }
     ],
     xp: 200,
-    badge: '🎨 Creador Digital'
+    badge: 'ðŸŽ¨ Creador Digital'
   },
   {
     type: 'quiz',
-    tag: 'ESTACIÓN 3 • GESTIÓN EN LA NUBE Y SEGURIDAD (MÓDULO 23)',
+    tag: 'ESTACIÃ“N 3 â€¢ GESTIÃ“N EN LA NUBE Y SEGURIDAD (MÃ“DULO 23)',
     title: 'Respaldo y Entrega en Portafolio Digital',
-    scenario: '<strong>Caso práctico:</strong> Has terminado tu cronograma y tu infografía. Debes compartirlos en un enlace de Google Drive para que tu Asesor Virtual los evalúe.',
-    question: '¿Qué configuración debes verificar antes de pegar tu enlace en la plataforma Moodle?',
+    scenario: '<strong>Caso prÃ¡ctico:</strong> Has terminado tu cronograma y tu infografÃ­a. Debes compartirlos en un enlace de Google Drive para que tu Asesor Virtual los evalÃºe.',
+    question: 'Â¿QuÃ© configuraciÃ³n debes verificar antes de pegar tu enlace en la plataforma Moodle?',
     options: [
-      { text: 'Dejar el archivo en modo "Restringido" por seguridad, aunque el asesor no pueda abrirlo.', ok: false, fb: '⚠️ Si el enlace está restringido, el Asesor Virtual no podrá visualizar tu evidencia y tu calificación se verá afectada.' },
-      { text: 'Organizar los archivos en una carpeta nombrada con la nomenclatura oficial y configurar el permiso como "Cualquier persona con el enlace: Lector".', ok: true, fb: '✅ ¡Misión cumplida! Garantizas accesibilidad para la evaluación y proteges tus archivos contra ediciones accidentales. (+250 XP • Insignia "Maestro del Tiempo" desbloqueada)' },
-      { text: 'Enviar los archivos pesados por correo personal en lugar de usar la nube.', ok: false, fb: '⚠️ El almacenamiento en la nube facilita el acceso multiplataforma y el seguimiento institucional en Moodle.' }
+      { text: 'Dejar el archivo en modo "Restringido" por seguridad, aunque el asesor no pueda abrirlo.', ok: false, fb: 'âš ï¸ Si el enlace estÃ¡ restringido, el Asesor Virtual no podrÃ¡ visualizar tu evidencia y tu calificaciÃ³n se verÃ¡ afectada.' },
+      { text: 'Organizar los archivos en una carpeta nombrada con la nomenclatura oficial y configurar el permiso como "Cualquier persona con el enlace: Lector".', ok: true, fb: 'âœ… Â¡MisiÃ³n cumplida! Garantizas accesibilidad para la evaluaciÃ³n y proteges tus archivos contra ediciones accidentales. (+250 XP â€¢ Insignia "Maestro del Tiempo" desbloqueada)' },
+      { text: 'Enviar los archivos pesados por correo personal en lugar de usar la nube.', ok: false, fb: 'âš ï¸ El almacenamiento en la nube facilita el acceso multiplataforma y el seguimiento institucional en Moodle.' }
     ],
     xp: 250,
-    badge: '⏱️ Maestro del Tiempo'
+    badge: 'â±ï¸ Maestro del Tiempo'
   },
   {
     type: 'end',
-    tag: 'META FINAL • CERTIFICACIÓN Y TESTEO DE USUARIO',
-    title: '¡Felicidades, Estudiante Digital Autónomo!'
+    tag: 'META FINAL â€¢ CERTIFICACIÃ“N Y TESTEO DE USUARIO',
+    title: 'Â¡Felicidades, Estudiante Digital AutÃ³nomo!'
   }
 ];
 
@@ -274,39 +274,39 @@ function render() {
         <p><strong>${st.question}</strong></p>
         <div class="options">${optsHtml}</div>
         <div class="feedback" id="fb-box"></div>
-        <button class="btn-primary" id="next-btn" style="display:none;" onclick="nextStation()">Continuar Misión →</button>
+        <button class="btn-primary" id="next-btn" style="display:none;" onclick="nextStation()">Continuar MisiÃ³n â†’</button>
       </div>`;
   } else if (st.type === 'end') {
     container.innerHTML = `
       <div class="card">
         <span class="station-tag">${st.tag}</span>
         <h2>${st.title}</h2>
-        <p>Has completado exitosamente la simulación gamificada acumulando <strong>${xp} XP</strong> y desbloqueando tus insignias de competencia digital:</p>
+        <p>Has completado exitosamente la simulaciÃ³n gamificada acumulando <strong>${xp} XP</strong> y desbloqueando tus insignias de competencia digital:</p>
         <div class="badges-grid">
           <div class="badge-card">
-            <div class="badge-icon">🎨</div>
+            <div class="badge-icon">ðŸŽ¨</div>
             <strong>Insignia: Creador Digital</strong>
-            <p style="font-size:0.85rem;margin:4px 0 0;">Dominio de síntesis visual y diseño ético en Canva.</p>
+            <p style="font-size:0.85rem;margin:4px 0 0;">Dominio de sÃ­ntesis visual y diseÃ±o Ã©tico en Canva.</p>
           </div>
           <div class="badge-card">
-            <div class="badge-icon">⏱️</div>
+            <div class="badge-icon">â±ï¸</div>
             <strong>Insignia: Maestro del Tiempo</strong>
-            <p style="font-size:0.85rem;margin:4px 0 0;">Planificación autorregulada y gestión segura en la nube.</p>
+            <p style="font-size:0.85rem;margin:4px 0 0;">PlanificaciÃ³n autorregulada y gestiÃ³n segura en la nube.</p>
           </div>
         </div>
         <hr style="border:none;border-top:1px solid #e0e6ed;margin:20px 0;">
-        <h3>📊 Testeo Rápido de Experiencia (Evaluación Gamificada)</h3>
-        <p style="font-size:0.95rem;">Califica del 0 al 5 qué tan útil y atractivo te pareció este simulador para tus actividades en Prepa en Línea-SEP:</p>
+        <h3>ðŸ“Š Testeo RÃ¡pido de Experiencia (EvaluaciÃ³n Gamificada)</h3>
+        <p style="font-size:0.95rem;">Califica del 0 al 5 quÃ© tan Ãºtil y atractivo te pareciÃ³ este simulador para tus actividades en Prepa en LÃ­nea-SEP:</p>
         <div class="stars" id="star-rating">
-          <span onclick="setStars(1)">★</span>
-          <span onclick="setStars(2)">★</span>
-          <span onclick="setStars(3)">★</span>
-          <span onclick="setStars(4)">★</span>
-          <span onclick="setStars(5)">★</span>
+          <span onclick="setStars(1)">â˜…</span>
+          <span onclick="setStars(2)">â˜…</span>
+          <span onclick="setStars(3)">â˜…</span>
+          <span onclick="setStars(4)">â˜…</span>
+          <span onclick="setStars(5)">â˜…</span>
           <strong id="star-label" style="font-size:1rem;color:#2c3e50;margin-left:10px;">(0 / 5)</strong>
         </div>
-        <textarea id="user-comment" rows="3" placeholder="Escribe brevemente el motivo de tu calificación..."></textarea>
-        <button class="btn-primary" onclick="submitFeedback()">Enviar Valoración</button>
+        <textarea id="user-comment" rows="3" placeholder="Escribe brevemente el motivo de tu calificaciÃ³n..."></textarea>
+        <button class="btn-primary" onclick="submitFeedback()">Enviar ValoraciÃ³n</button>
         <div class="feedback ok" id="thanks-box" style="margin-top:12px;"></div>
       </div>`;
   }
@@ -340,7 +340,7 @@ function checkAnswer(idx) {
   } else {
     btn.classList.add('wrong');
     fbBox.className = 'feedback err';
-    fbBox.innerHTML = chosen.fb + '<br><em>Intenta seleccionar otra opción para continuar.</em>';
+    fbBox.innerHTML = chosen.fb + '<br><em>Intenta seleccionar otra opciÃ³n para continuar.</em>';
     fbBox.style.display = 'block';
   }
 }
@@ -354,7 +354,7 @@ function nextStation() {
 
 function setStars(n) {
   selectedStars = n;
-  const emojis = ['😐', '🙂', '😊', '😃', '🤩'];
+  const emojis = ['ðŸ˜', 'ðŸ™‚', 'ðŸ˜Š', 'ðŸ˜ƒ', 'ðŸ¤©'];
   const spans = document.querySelectorAll('#star-rating span');
   spans.forEach((s, idx) => {
     s.classList.toggle('active', idx < n);
@@ -366,7 +366,7 @@ function submitFeedback() {
   const comment = document.getElementById('user-comment').value.trim();
   const box = document.getElementById('thanks-box');
   box.style.display = 'block';
-  box.innerHTML = `🎉 <strong>¡Gracias por tu retroalimentación!</strong> Has otorgado <strong>${selectedStars}/5 estrellas</strong>. ${comment ? 'Tu comentario ha sido registrado: "' + comment + '"' : ''}`;
+  box.innerHTML = `ðŸŽ‰ <strong>Â¡Gracias por tu retroalimentaciÃ³n!</strong> Has otorgado <strong>${selectedStars}/5 estrellas</strong>. ${comment ? 'Tu comentario ha sido registrado: "' + comment + '"' : ''}`;
 }
 
 render();
